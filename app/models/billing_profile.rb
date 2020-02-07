@@ -12,6 +12,8 @@ class BillingProfile < ApplicationRecord
   belongs_to :user, optional: true
   after_update :mirror_address_to_attached_invoices
 
+  scope :orphaned, -> { where(user_id: nil) }
+
   def user_name
     if user
       user.display_name

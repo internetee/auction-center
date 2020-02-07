@@ -29,7 +29,11 @@ module AuctionCenter
     config.active_job.queue_adapter = :delayed_job
 
     # Load customization from special file
-    config.customization = config_for(:customization)
+    config.customization = if ENV['HEROKU'].present?
+                             config_for(:customization_heroku)
+                           else
+                             config_for(:customization)
+                           end
 
     # Available locales
     config.i18n.available_locales = [:en, :et]

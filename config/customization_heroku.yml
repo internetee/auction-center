@@ -1,0 +1,134 @@
+default: &default
+  # This is your application name, as displayed in the UI
+  application_name: "EIS Auction Center"
+
+  # Timezone and locale
+  time_zone: "Tallinn"
+  #  locale: "en"
+
+  # Generate your own with rails secret
+  devise_secret_key: 'fa272e88d8ae0008e994389a8726367f70adc65ba4c41a00713244d1d42305fc8198a15dede938243ef29c1d4780b67d2ac5033583b52c4aab8d4d32350e0199'
+
+  # Address from which the emails come from
+  email_from_address: "noreply@internet.ee"
+
+  mailer:
+    # Host to which links from emails should redirect to
+    host: 'https://auction.example.test'
+
+    # SMTP server address, i.e 'smtp.auction.test'
+    address: ''
+    # 587, 465
+    port: ''
+    # true/false (without quotation marks)
+    enable_starttls_auto: true
+    # SMTP user name, i.e 'user@auction.test'
+    user_name: ''
+    # SMTP password, i.e 'password'
+    password: ''
+    # 'plain', 'login', 'cram_md5'
+    authentication: ''
+    # domain for HELO check
+    domain: ''
+    # Use "none" only when for a self-signed and/or wildcard certificate
+    # openssl_verify_mode: 'peer' # 'none', 'peer', 'client_once','fail_if_no_peer_cert'
+    # Detects if STARTTLS is enabled in your SMTP server and starts to use it. Defaults to true.
+    # Set this to false if there is a problem with your server certificate that you cannot resolve.
+    # 'none', 'peer', 'client_once','fail_if_no_peer_cert'
+    openssl_verify_mode: ''
+
+  airbrake:
+    host: ''
+    project_id: ''
+    project_key: ''
+    # environment can be left blank, defaults to Rails.env
+    # environment: ''
+
+  recaptcha:
+    site_key: ''
+    secret_key: ''
+
+
+  google_analytics:
+    # Disabled when not configured
+    tracking_id:
+
+  payment_methods:
+    enabled_methods:
+      - "PaymentOrders::EveryPay"
+      - "PaymentOrders::SEB"
+
+    every_pay:
+      url: ''
+      user: ''
+      key: ''
+      account_id: ''
+      icon: '/images/payment_methods/every_pay.png'
+
+    seb:
+      url: ''
+      seller_account: ''
+      seller_private_key: ''
+      bank_certificate: ''
+      icon: '/images/payment_methods/seb.png'
+
+  messente:
+    username: 'messente_user'
+    password: 'messente_password'
+
+  tara:
+    host: 'tara-test.ria.ee'
+    issuer: 'https://tara-test.ria.ee'
+    identifier: 'identifier'
+    secret: 'secret'
+    redirect_uri: 'redirect_url'
+    keys:
+      kty: RSA
+      kid: de6cc4
+      n: jWwAjT_03ypme9ZWeSe7c-jY26NO50Wo5I1LBnPW2JLc0dPMj8v7y4ehiRpClYNTaSWcLd4DJmlKXDXXudEUWwXa7TtjBFJfzlZ-1u0tDvJ-H9zv9MzO7UhUFytztUEMTrtStdhGbzkzdEZZCgFYeo2i33eXxzIR1nGvI05d9Y-e_LHnNE2ZKTa89BC7ZiCXq5nfAaCgQna_knh4kFAX-KgiPRAtsiDHcAWKcBY3qUVcb-5XAX8p668MlGLukzsh5tFkQCbJVyNtmlbIHdbGvVHPb8C0H3oLYciv1Fjy_tS1lO7OT_cb3GVp6Ql-CG0uED_8pkpVtfsGRviub4_ElQ
+      e: AQAB
+
+    # HTTP Proxy address as a string. Only HTTP is allowed, in the following schema:
+    # "http://192.168.0.1:8080"
+    # "http://user:password@address.com:8080"
+    # "http://address.com"
+    #
+    # When commented out, no proxy is used.
+    # proxy: "http://user:password@address.com:8080"
+
+  registry_integration:
+    enabled: false
+    url: 'https://testrant.internet.ee/api/v1/auctions.json'
+
+development:
+  <<: *default
+test:
+  <<: *default
+
+  payment_methods:
+    enabled_methods:
+      - "PaymentOrders::EveryPay"
+      - "PaymentOrders::SEB"
+
+    every_pay:
+      url: 'https://igw-demo.every-pay.com/transactions/'
+      user: 'api_user'
+      key: 'api_key'
+      account_id: 'EUR3D1'
+      icon: '/images/payment_methods/every_pay.png'
+
+    seb:
+      url: 'https://www.seb.ee/cgi-bin/dv.sh/ipank.r'
+      seller_account: 'testvpos'
+      seller_private_key: 'test/fixtures/files/seb_seller_key.pem'
+      bank_certificate: 'test/fixtures/files/seb_bank_cert.pem'
+      icon: '/images/payment_methods/seb.png'
+
+  messente:
+    username: 'messente_user'
+    password: 'messente_password'
+
+staging:
+  <<: *default
+production:
+  <<: *default

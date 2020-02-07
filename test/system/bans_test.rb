@@ -6,7 +6,7 @@ class BansTest < ApplicationSystemTestCase
   DAYS_AFTER = 5.days.freeze
   def setup
     super
-
+    Ban.destroy_all
     travel_to Time.parse('2010-07-05 10:31 +0000').in_time_zone
 
     @expired_auction = auctions(:expired)

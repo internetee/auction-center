@@ -40,6 +40,11 @@ class User < ApplicationRecord
 
   scope :subscribed_to_daily_summary, -> { where(daily_summary: true) }
 
+  scope :participant, -> { where(roles: [PARTICIPANT_ROLE]) }
+  scope :with_billing_profiles, lambda {
+    includes(:billing_profiles).where.not(billing_profiles: { user_id: nil })
+  }
+
   def identity_code_must_be_valid_for_estonia
     return if IdentityCode.new(country_code, identity_code).valid?
 

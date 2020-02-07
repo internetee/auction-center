@@ -19,6 +19,8 @@ class Result < ApplicationRecord
           statuses[:awaiting_payment])
   }
 
+  scope :with_bids, -> { where.not(status: Result.statuses[:no_bids]) }
+
   scope :pending_status_report, lambda {
     where('status <> last_remote_status OR last_remote_status IS NULL')
   }
