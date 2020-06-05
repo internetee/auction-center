@@ -14,6 +14,8 @@ import Turbolinks from 'turbolinks';
 Rails.start();
 Turbolinks.start();
 
+import createChannel from '../channels/consumer';
+
 // UI modules
 import '../src/semantic-ui/definitions/modules/transition.js';
 import '../src/semantic-ui/definitions/modules/checkbox.js';
@@ -26,19 +28,29 @@ import '../src/semantic-ui/semantic.less';
 import 'typeface-raleway';
 
 $(document).on('turbolinks:load', function() {
-    $('.ui.dropdown').dropdown();
+  $('.ui.dropdown').dropdown();
 
-    $('.btn-menu').on('click', function(e) {
-        $('.ui.sidebar')
-            .sidebar('toggle');
-    });
+  $('.btn-menu').on('click', function(e) {
+    $('.ui.sidebar')
+      .sidebar('toggle');
+  });
 
-    $(window).scroll(function() {
-        if (window.matchMedia('(max-width: 1024px)').matches
-            && $(document).scrollTop() > 0) {
-            $('.main-header').addClass('u-fixed');
-        } else {
-            $('.main-header').removeClass('u-fixed');
-        }
-    });
+  createChannel({ channel: "AuctionsChannel", room: "auctions:auction_channel" }, {
+    connected() {
+      console.log("Connected to:", this)
+    },
+
+    received(data) {
+      console.log(data)
+    }
+  })
+
+  $(window).scroll(function() {
+    if (window.matchMedia('(max-width: 1024px)').matches
+      && $(document).scrollTop() > 0) {
+      $('.main-header').addClass('u-fixed');
+    } else {
+      $('.main-header').removeClass('u-fixed');
+    }
+  });
 });

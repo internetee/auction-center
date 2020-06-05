@@ -55,6 +55,7 @@ class UsersController < ApplicationController
   # GET /users/aa450f1a-45e2-4f22-b2c3-f5f46b5f906b
   def show
     authorize! :read, @user
+    AuctionsChannel.broadcast_to("auctions_channel", { key: "value", other_key: "Imaginary value" })
   end
 
   # GET /users/aa450f1a-45e2-4f22-b2c3-f5f46b5f906b/edit

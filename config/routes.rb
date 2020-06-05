@@ -87,4 +87,6 @@ Rails.application.routes.draw do
   resources :wishlist_items, param: :uuid, only: %i[index create destroy]
 
   mount OkComputer::Engine, at: '/healthcheck', as: :healthcheck
+
+  mount ActionCable.server => '/cable'
 end
