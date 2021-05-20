@@ -7,6 +7,8 @@ disallowed_auction_actions = if Feature.registry_integration_enabled?
                              end
 
 Rails.application.routes.draw do
+  get 'web_socket/index'
+
   root to: 'auctions#index'
 
   concern :auditable do
@@ -18,6 +20,8 @@ Rails.application.routes.draw do
       get 'search'
     end
   end
+
+  mount ActionCable.server => '/cable'
 
   match 'profile/edit', via: :get, to: 'users#edit_authwall', as: :user_edit_authwall
   match '/profile/toggle_subscription', via: :get, to: 'users#toggle_subscription',
@@ -52,7 +56,7 @@ Rails.application.routes.draw do
   devise_for :users, path: 'sessions',
                      controllers: { confirmations: 'email_confirmations', sessions: 'auth/sessions' }
 
-  resources :auctions, only: %i[index show], param: :uuid, concerns: [:searchable] do
+  resources :auctions, only: %i[index show new create], param: :uuid, concerns: [:searchable] do
     resources :offers, only: %i[new show create edit update destroy], shallow: true, param: :uuid
   end
   match '*auctions', controller: 'auctions', action: 'cors_preflight_check', via: [:options]

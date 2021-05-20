@@ -252,6 +252,7 @@ GEM
     rbtree3 (0.6.0)
     recaptcha (5.8.0)
       json
+    redis (4.2.5)
     regexp_parser (2.1.1)
     responders (3.0.1)
       actionpack (>= 5.0)
@@ -362,6 +363,7 @@ DEPENDENCIES
   rails (>= 6.0.3.5)
   rails-i18n
   recaptcha
+  redis
   scenic
   simplecov (~> 0.10, < 0.18)
   simpleidn

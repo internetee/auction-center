@@ -1,5 +1,7 @@
 class Auction < ApplicationRecord
   after_create :find_auction_turns
+  after_commit :send_new_created_auction
+
   validates :domain_name, presence: true
   validates :ends_at, presence: true
   validates :starts_at, presence: true
@@ -25,6 +27,10 @@ class Auction < ApplicationRecord
 
   delegate :count, to: :offers, prefix: true
   delegate :size, to: :offers, prefix: true
+
+  def send_new_created_auction
+    ActionCable.server.broadcast("auctions", message: "created domain")
+  end
 
   def does_not_overlap
     return unless starts_at && ends_at

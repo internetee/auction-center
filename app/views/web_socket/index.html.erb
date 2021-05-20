@@ -1,0 +1,39 @@
+<% content_for :hero do %>
+    <div class="hero orange">
+        <h1><%= t('.title') %></h1>
+    </div>
+<% end %>
+
+
+<div class="features-grid top narrow grey">
+    <div class="ui search">
+        <div class="ui massive input icon">
+            <%= form_with(url: search_admin_bans_path, local: true, method: :get) do |f| %>
+                <div class="ui input icon">
+                    <%= f.text_field :search_string, placeholder: t('search') %>
+                </div>
+
+                <%= f.button(class: "ui icon primary button") do %>
+                    <i aria-hidden="true" class="arrow right icon"></i>
+                <% end %>
+            <% end %>
+        </div>
+    </div>
+</div>
+
+<div class="ui container">
+    <div class="margin-block">
+
+<%= form_for @auction , remote: true do |f| %>
+
+  <%= f.text_field :domain_name %>
+  <%= f.submit %>
+
+<% end %>
+
+<div id="auctions_web_sockets">
+
+</div>
+
+</div>
+</div>

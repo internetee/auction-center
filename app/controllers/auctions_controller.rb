@@ -46,7 +46,33 @@ class AuctionsController < ApplicationController
     @auction = Auction.accessible_by(current_ability).find_by!(uuid: params[:uuid])
   end
 
+  def new
+    @auction = Auction.new
+  end
+
+  def create
+    redis = Redis.new(url: "#{ENV.fetch("REDIS_URL")}")
+    start = 0
+    total = 0
+    key_collection = []
+
+    @auction = Auction.new(auction_params)
+    @auction.starts_at = Time.now + 2.minute
+    @auction.ends_at = Time.now + 1.day
+    if @auction.save
+      ActionCable.server.broadcast 'auctions_channel', content: 'Hey Redis from Auction Web Socket', domain_name: @auction.domain_name
+     
+      redis.set("foo", "bar")
+      redis.get("foo")
+      # redis.publish "auctions_channel", { domain_name: @auction.domain_name }
+    end
+  end
+
   private
+
+  def auction_params
+    params.require(:auction).permit(:domain_name)
+  end
 
   def search_params
     search_params_copy = params.dup

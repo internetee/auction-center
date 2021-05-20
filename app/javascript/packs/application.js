@@ -13,6 +13,8 @@ require("chartkick").use(require("highcharts"))
 import Turbolinks from 'turbolinks';
 Rails.start();
 Turbolinks.start();
+import 'channels';
+import 'jquery';
 
 // UI modules
 import '../src/semantic-ui/definitions/modules/transition.js';
